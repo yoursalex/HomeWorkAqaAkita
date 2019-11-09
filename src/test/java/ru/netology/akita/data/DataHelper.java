@@ -1,5 +1,6 @@
 package ru.netology.akita.data;
 
+import lombok.Data;
 import lombok.Value;
 
 public class DataHelper {
@@ -25,11 +26,8 @@ public class DataHelper {
         return new VerificationCode("12345");
     }
 
-    @Value
-    public static class CreditCard {
-        private String number;
-        private int balance;
-    }
 
 }
+
+
 
