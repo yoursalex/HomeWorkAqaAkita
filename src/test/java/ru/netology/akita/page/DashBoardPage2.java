@@ -23,13 +23,15 @@ public class DashBoardPage2 {
     }
 
     public String getTextCardOne() {
-        String text = balanceCardOne.innerText();
-        return text;
+        String [] text = balanceCardOne.innerText().substring(3).split(" ");
+        String balance = text[5];
+        return balance;
     }
 
     public String getTextCardTwo() {
-        String text = balanceCardTwo.innerText();
-        return text;
+        String [] text = balanceCardTwo.innerText().substring(3).split(" ");
+        String balance = text[5];
+        return balance;
     }
 
 }

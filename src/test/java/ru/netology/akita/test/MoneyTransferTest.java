@@ -1,9 +1,6 @@
 package ru.netology.akita.test;
 
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.filter.log.LogDetail;
-import io.restassured.http.ContentType;
-import io.restassured.specification.RequestSpecification;
+import com.codeborne.selenide.Condition;
 import lombok.val;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -16,7 +13,7 @@ import ru.netology.akita.page.*;
 
 import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.*;
-import static io.restassured.RestAssured.given;
+
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MoneyTransferTest {
@@ -44,8 +41,8 @@ class MoneyTransferTest {
         val dashBoardPage = verificationPage.validVerify(verificationCode);
         val cardPage = dashBoardPage.cardPageOne(); // перешли на страницу карты 1
         val dashBoardPage2 = cardPage.putCardInfo(cardOne, cardTwo, amount); // метод вернет страницу с 2мя картами
-        $(withText("**** **** **** 0001")).innerText().substring(3).matches(dashBoardPage2.getTextBalance(cardOne));
-
+        val cardBalanceText = dashBoardPage2.getTextBalance(cardOne);
+        $(dashBoardPage2.getTextCardOne()).shouldBe(Condition.exactText(cardBalanceText));
     }
 
 
