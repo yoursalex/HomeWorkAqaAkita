@@ -102,8 +102,7 @@ class MoneyTransferTest {
         val cardPage = login().cardOnePage();
         val dashBoardPage2 = cardPage.cancelRequest(cardTwo, 1000);
         val cardPage2 = dashBoardPage2.cardOnePage();
-        boolean isEmpty = true;
-        assertEquals(isEmpty, cardPage2.isEmpty());
+        assertTrue(cardPage2.isEmpty());
     }
 
     @Test
@@ -113,8 +112,7 @@ class MoneyTransferTest {
         val cardPage = login().cardTwoPage();
         val dashBoardPage2 = cardPage.cancelRequest(cardTwo, 1000);
         val cardPage2 = dashBoardPage2.cardTwoPage();
-        boolean isEmpty = true;
-        assertEquals(isEmpty, cardPage2.isEmpty());
+       assertTrue(cardPage2.isEmpty());
     }
 
     @ParameterizedTest
@@ -124,8 +122,7 @@ class MoneyTransferTest {
         illegal.setNumber(card);
         val cardPage = login().cardOnePage();
         val dashBoardPage2 = cardPage.transferFromInfo(illegal, 1000);
-        boolean isVisible = true;
-        assertEquals(dashBoardPage2.errorIsVisible(), isVisible, message);
+        assertTrue(dashBoardPage2.errorIsVisible(), message);
     }
 
     @ParameterizedTest
@@ -135,8 +132,7 @@ class MoneyTransferTest {
         illegal.setNumber(card);
         val cardPage = login().cardTwoPage();
         val dashBoardPage2 = cardPage.transferFromInfo(illegal, 1000);
-        boolean isVisible = true;
-        assertEquals(dashBoardPage2.errorIsVisible(), isVisible, message);
+        assertTrue(dashBoardPage2.errorIsVisible(), message);
     }
 
     public DashBoardPage login() {
