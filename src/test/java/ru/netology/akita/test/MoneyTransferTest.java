@@ -33,7 +33,6 @@ class MoneyTransferTest {
     @ParameterizedTest
     @CsvFileSource(resources = "/amount.cvs", numLinesToSkip = 1)
     void shouldTransferMoneyFromCardTwoToCardOne(int amount, String message, String messageTwo) {
-        open("http://localhost:9999/");
         val cardPage = login().cardOnePage();
         val dashBoardPage2 = cardPage.transferFromInfo(cardTwo, amount);
         cardPage.transferMoney(cardOne, cardTwo, amount);
@@ -44,7 +43,6 @@ class MoneyTransferTest {
     @ParameterizedTest
     @CsvFileSource(resources = "/amount.cvs", numLinesToSkip = 1)
     void shouldTransferMoneyFromCardOneToCardTwo(int amount) {
-        open("http://localhost:9999/");
         val cardPage = login().cardTwoPage();
         val dashBoardPage2 = cardPage.transferFromInfo(cardOne, amount);
         cardPage.transferMoney(cardTwo, cardOne, amount);
@@ -55,7 +53,6 @@ class MoneyTransferTest {
     @ParameterizedTest
     @CsvFileSource(resources = "/illegalAmount.cvs", numLinesToSkip = 1)
     void shouldNotTransferMoneyFromCardTwoToCardOneIfNegativeBalance(int amount, String message) {
-        open("http://localhost:9999/");
         val cardPage = login().cardOnePage();
         val dashBoardPage2 = cardPage.transferFromInfo(cardTwo, amount);
         cardPage.transferMoneyCheckingBalance(cardOne, cardTwo, cardTwo.getBalance()+amount); //даст возможность всегда пытатся перевести больше, чем баланс карты с которой переводим
@@ -66,7 +63,6 @@ class MoneyTransferTest {
     @ParameterizedTest
     @CsvFileSource(resources = "/illegalAmount.cvs", numLinesToSkip = 1)
     void shouldNotTransferMoneyFromCardOneToCardTwoIfNegativeBalance(int amount, String message) {
-        open("http://localhost:9999/");
         val cardPage = login().cardTwoPage();
         val dashBoardPage2 = cardPage.transferFromInfo(cardOne, amount);
         cardPage.transferMoneyCheckingBalance(cardOne, cardTwo, cardOne.getBalance()+amount); //даст возможность всегда пытатся перевести больше, чем баланс карты с которой переводим
@@ -78,7 +74,6 @@ class MoneyTransferTest {
     @Test
     @DisplayName("После нажатия Отмена должен возвращать на страницу карт без изменения баланса. Карта 1")
     void shouldCancelRequestCardPageOneAndKeepSameBalance() {
-        open("http://localhost:9999/");
         val cardPage = login().cardOnePage();
         val dashBoardPage2 = cardPage.cancelRequest(cardTwo, 1000);
         assertEquals(dashBoardPage2.getBalanceFromPageCardOne(), cardOne.getBalance());
@@ -88,7 +83,6 @@ class MoneyTransferTest {
     @Test
     @DisplayName("После нажатия Отмена должен возвращать на страницу карт без изменения баланса. Карта 2")
     void shouldCancelRequestCardPageTwoAndKeepSameBalance() {
-        open("http://localhost:9999/");
         val cardPage = login().cardTwoPage();
         val dashBoardPage2 = cardPage.cancelRequest(cardOne, 1000);
         assertEquals(dashBoardPage2.getBalanceFromPageCardOne(), cardOne.getBalance());
@@ -98,7 +92,6 @@ class MoneyTransferTest {
     @Test
     @DisplayName("После нажатия Отмена должен очищать поля страницы перевода. Карта 1.")
     void shouldCleanFieldsIfReqestIsCandelledCardOnePage() {
-        open("http://localhost:9999/");
         val cardPage = login().cardOnePage();
         val dashBoardPage2 = cardPage.cancelRequest(cardTwo, 1000);
         val cardPage2 = dashBoardPage2.cardOnePage();
@@ -108,7 +101,6 @@ class MoneyTransferTest {
     @Test
     @DisplayName("После нажатия Отмена должен очищать поля страницы перевода. Карта 2.")
     void shouldCleanFieldsIfReqestIsCandelledCardTwoPage() {
-        open("http://localhost:9999/");
         val cardPage = login().cardTwoPage();
         val dashBoardPage2 = cardPage.cancelRequest(cardTwo, 1000);
         val cardPage2 = dashBoardPage2.cardTwoPage();
@@ -118,7 +110,6 @@ class MoneyTransferTest {
     @ParameterizedTest
     @CsvFileSource(resources = "/illegalCardOne.cvs", numLinesToSkip = 1)
     void shouldNotTransferMoneyCardOneFromIllegalCard(String card, String message) {
-        open("http://localhost:9999/");
         illegal.setNumber(card);
         val cardPage = login().cardOnePage();
         val dashBoardPage2 = cardPage.transferFromInfo(illegal, 1000);
@@ -128,7 +119,6 @@ class MoneyTransferTest {
     @ParameterizedTest
     @CsvFileSource(resources = "/illegalCardTwo.cvs", numLinesToSkip = 1)
     void shouldNotTransferMoneyCardTwoFromIllegalCard(String card, String message) {
-        open("http://localhost:9999/");
         illegal.setNumber(card);
         val cardPage = login().cardTwoPage();
         val dashBoardPage2 = cardPage.transferFromInfo(illegal, 1000);
@@ -136,6 +126,7 @@ class MoneyTransferTest {
     }
 
     public DashBoardPage login() {
+        open("http://localhost:9999/");
         val loginPage = new LoginPage();
         val authInfo = DataHelper.getAuthInfo();
         val verificationPage = loginPage.validLogin(authInfo);
